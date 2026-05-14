@@ -1,4 +1,4 @@
-git branch -M mainimport { Organization } from "../domain/entities/organization.entity";
+import { Organization } from "../domain/entities/organization.entity";
 import { OrganizationCreateDTO } from "../domain/interfaces/organizationCreate.dto";
 import { OrganizationRepository } from "../domain/interfaces/organization.repository";
 
