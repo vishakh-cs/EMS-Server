@@ -5,7 +5,7 @@ import { GetAuthAdminsUseCase } from "../../use_cases/GetAuthAdminsUseCase";
 import { AuthAdminLoginDTO } from "../../domain/dto/auth-adminLogin.dto";
 import { LoginAdminUseCase } from "../../use_cases/LoginAdminUseCase";
 import { generateAccessToken, generateRefreshToken } from "../../../../shared/jwt";
-import { OrganizationCreateDTO } from "../../../organization/domain/interfaces/organizationCreate.dto";
+import { OrganizationCreateDTO } from "../../../organization/domain/dto/organizationCreate.dto";
 import { CreateOrganizationUseCase } from "../../../organization/use_cases/CreateOrganizationUseCase";
 
 export default class AuthAdminController {

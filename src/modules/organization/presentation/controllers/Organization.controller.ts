@@ -1,13 +1,10 @@
 import { Request, Response } from "express";
 import { CreateOrganizationUseCase } from "../../use_cases/CreateOrganizationUseCase";
 import { GetOrganizationsUseCase } from "../../use_cases/GetOrganizationsUseCase";
-import {
-  OrganizationCreateDTO,
-  validateFields,
-} from "../../domain/interfaces/organizationCreate.dto";
 import { GetWhitelistIpsUseCase } from "../../../whitelist-ips/use_cases/GetWhitelistIpssUseCase";
 import { WhitelistIpsCreateDTO } from "../../../whitelist-ips/domain/dto/whitelist-ipsCreate.dto";
 import { CreateWhitelistIpsUseCase } from "../../../whitelist-ips/use_cases/CreateWhitelistIpsUseCase";
+import { OrganizationCreateDTO } from "../../domain/dto/organizationCreate.dto";
 
 export default class OrganizationController {
   constructor(
@@ -37,14 +34,6 @@ export default class OrganizationController {
 
   async createOrganization(req: Request, res: Response): Promise<Response> {
     const organization: OrganizationCreateDTO = req.body;
-    const missingFields = validateFields(organization);
-
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-        message: "Missing required organization fields",
-        fields: missingFields,
-      });
-    }
 
     try {
       const createdOrganization = await this.createOrganizationUseCase.execute(
@@ -54,7 +43,13 @@ export default class OrganizationController {
         message: "Organization created successfully",
         organization: createdOrganization,
       });
-    } catch (error) {
+    } catch (error: any) {
+      if (error.status === 400) {
+        return res.status(400).json({
+          message: error.message,
+          fields: error.fields,
+        });
+      }
       if (this.isDuplicateKeyError(error)) {
         return res.status(409).json({
           message: "Organization already exists with this orgUID",
