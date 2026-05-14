@@ -63,7 +63,6 @@ export default class AuthAdminController {
 
   async registerOrganization(req: Request, res: Response): Promise<Response> {
     const user = req.user
-    console.log(user);
     const dto: OrganizationCreateDTO = req.body;
     const item = await this.createOrganizationUseCase.execute(dto);
 

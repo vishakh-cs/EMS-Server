@@ -19,6 +19,11 @@ const toDomain = (organization: Organization & { _id?: unknown }): Organization 
 
 export class MongoOrganizationRepository implements OrganizationRepository {
   async create(organization: Organization): Promise<Organization> {
+    const uid = organization.orgUID
+    const existingOrg = await OrganizationModel.findOne({ orgUID: uid });
+    if (existingOrg) {
+      throw new Error("Organization with this UID already exists");
+    }
     const createdOrganization = await OrganizationModel.create(organization);
 
     return toDomain(createdOrganization.toObject());
@@ -29,4 +34,5 @@ export class MongoOrganizationRepository implements OrganizationRepository {
 
     return organizations.map(toDomain);
   }
+
 }

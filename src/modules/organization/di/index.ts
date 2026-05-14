@@ -2,6 +2,7 @@ import OrganizationController from "../presentation/controllers/Organization.con
 import { CreateOrganizationUseCase } from "../use_cases/CreateOrganizationUseCase";
 import { GetOrganizationsUseCase } from "../use_cases/GetOrganizationsUseCase";
 import { MongoOrganizationRepository } from "../infrastructure/repositories/MongoOrganizationRepository";
+import { createWhitelistIpsUseCase, getWhitelistIpsUseCase } from "../../whitelist-ips/di";
 
 export const organizationRepository = new MongoOrganizationRepository();
 export const createOrganizationUseCase = new CreateOrganizationUseCase(organizationRepository);
@@ -9,5 +10,8 @@ export const getOrganizationsUseCase = new GetOrganizationsUseCase(organizationR
 
 export const organizationController = new OrganizationController(
   createOrganizationUseCase,
-  getOrganizationsUseCase
+  getOrganizationsUseCase,
+  getWhitelistIpsUseCase,
+  createWhitelistIpsUseCase,
+  
 );
