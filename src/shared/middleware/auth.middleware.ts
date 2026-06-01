@@ -10,6 +10,8 @@ export interface AuthUser {
   id: string;
   email: string;
   role: string;
+  employeeUID?: string;
+  organizationId?: string;
 }
 
 export interface AuthRequest extends Request {

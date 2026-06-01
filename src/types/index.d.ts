@@ -5,6 +5,8 @@ declare namespace Express {
       email: string;
       role: string;
       organizationUID?: string;
+      organizationId?: string;
+      employeeUID?: string;
     };
   }
 }

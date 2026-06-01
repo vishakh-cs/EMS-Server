@@ -2,7 +2,7 @@ import { EmployeeRole, EmployeeStatus, EmploymentType } from "../../../../shared
 
 
 export interface Employees {
-  id?: string;
+  id: string;
 
   employeeUID: string;
   firstName: string;

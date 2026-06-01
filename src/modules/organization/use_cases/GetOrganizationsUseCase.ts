@@ -7,4 +7,8 @@ export class GetOrganizationsUseCase {
   async execute(): Promise<Organization[]> {
     return this.organizationRepository.findAll();
   }
+
+  async getByEmail(email: string): Promise<Organization | null> {
+    return this.organizationRepository.findByEmail(email);
+  }
 }

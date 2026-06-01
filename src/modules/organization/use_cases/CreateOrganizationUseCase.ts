@@ -5,12 +5,15 @@ import { EmployeeRole, EmployeeStatus } from "../../../shared/enums/employee.enu
 import crypto from "crypto";
 import { OrganizationCreateDTO, validateFields } from "../domain/dto/organizationCreate.dto";
 import { sendMail } from "../../../utils/mailer";
+import { CreateWhitelistIpsUseCase } from "../../whitelist-ips/use_cases/CreateWhitelistIpsUseCase";
+import { DEFAULT_IP_ADDRESS } from "../../../config";
 
 export class CreateOrganizationUseCase {
   constructor(
     private readonly organizationRepository: OrganizationRepository,
-    private readonly createEmployeesUseCase: CreateEmployeesUseCase
-  ) {}
+    private readonly createEmployeesUseCase: CreateEmployeesUseCase,
+    private readonly createWhitelistIpsUseCase: CreateWhitelistIpsUseCase,
+  ) { }
 
   async execute(organization: OrganizationCreateDTO): Promise<Organization> {
     const missingFields = validateFields(organization);
@@ -58,6 +61,11 @@ export class CreateOrganizationUseCase {
       city: "N/A",
       state: "N/A",
       country: "N/A",
+    });
+
+    await this.createWhitelistIpsUseCase.execute({
+      organizationUID: organization.orgUID,
+      whitelist_ips: [DEFAULT_IP_ADDRESS],
     });
 
     const subject = `Welcome to ${organization.organizationName}!`;

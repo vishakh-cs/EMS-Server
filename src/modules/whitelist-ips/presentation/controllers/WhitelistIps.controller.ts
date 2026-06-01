@@ -9,6 +9,11 @@ export default class WhitelistIpsController {
     private readonly getWhitelistIpssUseCase: GetWhitelistIpsUseCase
   ) {}
 
+  async getAll(req: Request, res: Response): Promise<Response> {
+    const {orgID} = req.body;
+    const items = await this.getWhitelistIpssUseCase.execute(orgID);
+    return res.json({ message: "Get all whitelist IPs", data: items });
+  }
 
   async create(req: Request, res: Response): Promise<Response> {
     const dto: WhitelistIpsCreateDTO = req.body;

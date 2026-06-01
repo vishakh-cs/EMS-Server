@@ -32,9 +32,10 @@ export default class OrganizationController {
     });
   }
 
+  
   async createOrganization(req: Request, res: Response): Promise<Response> {
     const organization: OrganizationCreateDTO = req.body;
-
+    
     try {
       const createdOrganization = await this.createOrganizationUseCase.execute(
         organization
@@ -62,23 +63,23 @@ export default class OrganizationController {
       });
     }
   }
-
+  
   async getIPWhitelist(req: Request, res: Response): Promise<Response> {
     const user = req.user;
     const isAuthenticated = user?.role === "admin";
-
+    
     if (!isAuthenticated) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
-
+    
     if (!user?.organizationUID) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
-
+    
     const ipWhitelist = await this.getWhitelistIPSUseCase.execute(user.organizationUID);
     return res.json({
       message: "IP whitelist fetched successfully",
@@ -89,15 +90,15 @@ export default class OrganizationController {
   async updateIPWhitelist(req: Request, res: Response): Promise<Response> {
     const user = req.user;
     const isAuthenticated = user?.role === "admin";
-
+    
     if (!isAuthenticated) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
-
+    
     const IPListWithOrgID: WhitelistIpsCreateDTO = req.body;
-
+    
     try {
       const ipWhitelist = await this.createWhitelistIpsUseCase.execute(IPListWithOrgID);
       return res.status(201).json({
@@ -112,7 +113,7 @@ export default class OrganizationController {
       });
     }
   }
-
+  
   private isDuplicateKeyError(error: unknown): boolean {
     return (
       typeof error === "object" &&
