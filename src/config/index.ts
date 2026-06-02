@@ -13,7 +13,7 @@ const DEFAULT_IP_ADDRESS = process.env.DEFAULT_IP_ADDRESS?.trim() || "0.0.0.0/0"
 
 
 const SMTP_HOST = process.env.SMTP_HOST?.trim();
-const SMTP_PORT = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined;
+const SMTP_PORT = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
 const SMTP_USER = process.env.SMTP_USER?.trim();
 const SMTP_PASS = process.env.SMTP_PASS?.trim();
 const SMTP_FROM = process.env.SMTP_FROM?.trim() || "no-reply@ecom.com";

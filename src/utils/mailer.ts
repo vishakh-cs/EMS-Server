@@ -4,11 +4,14 @@ import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } from "../config
 const transporter = nodemailer.createTransport({
   host: SMTP_HOST || "smtp.ethereal.email",
   port: SMTP_PORT || 587,
-  secure: SMTP_PORT === 465,
+  secure: false,
   auth: SMTP_USER ? {
     user: SMTP_USER,
     pass: SMTP_PASS,
   } : undefined,
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
 export const sendMail = async (to: string, subject: string, text: string, html?: string) => {

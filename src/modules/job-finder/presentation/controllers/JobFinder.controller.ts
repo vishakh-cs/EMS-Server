@@ -36,7 +36,6 @@ export default class JobFinderController {
   async createSmtpConfig(req: Request, res: Response): Promise<Response> {
     const dto: SmtpConfigInputDto = req.body;
     const employeeId = req.user?.id;
-    console.log("employee",employeeId);
     
     const item = await this.createSmtpConfigUseCase.createSmtpConfig({...dto, employeeId:employeeId });
     return res.status(201).json({
