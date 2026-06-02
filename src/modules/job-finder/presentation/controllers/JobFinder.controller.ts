@@ -74,6 +74,9 @@ export default class JobFinderController {
         tls: {
           rejectUnauthorized: false,
         },
+        connectionTimeout: 5000,
+        greetingTimeout: 5000,
+        socketTimeout: 5000,
       });
 
       // 3. Send the mail
