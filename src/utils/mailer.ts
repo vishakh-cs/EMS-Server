@@ -1,70 +1,37 @@
-import nodemailer from "nodemailer";
-import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } from "../config";
+import { BrevoClient } from "@getbrevo/brevo";
 
-console.log("📧 SMTP Config:", {
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  user: SMTP_USER,
-  from: SMTP_FROM,
-  passProvided: !!SMTP_PASS,
-  passLength: SMTP_PASS?.length,
-});
-
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST || "smtp.gmail.com",
-  port: SMTP_PORT || 587,
-  secure: false,
-  auth: SMTP_USER ? {
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-  } : undefined,
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
-
-// ✅ Verify connection at startup
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("❌ SMTP Connection Failed:", {
-      message: error.message,
-      code: (error as any).code,
-      command: (error as any).command,
-      response: (error as any).response,
-      responseCode: (error as any).responseCode,
-    });
-  } else {
-    console.log("✅ SMTP Server is ready to send emails");
-  }
-});
-
-export const sendMail = async (to: string, subject: string, text: string, html?: string) => {
-  console.log("📤 Attempting to send email to:", to);
-
-  if (!SMTP_HOST && !SMTP_USER) {
-    console.warn("⚠️ SMTP configuration is missing. Skipping email sending.");
+export const sendMail = async (
+  to: string,
+  subject: string,
+  text: string,
+  html?: string
+) => {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    console.warn("⚠️ BREVO_API_KEY is missing. Skipping email.");
     return null;
   }
 
+  const client = new BrevoClient({ apiKey });
+
   try {
-    const info = await transporter.sendMail({
-      from: SMTP_FROM,
-      to,
+    const response = await client.transactionalEmails.sendTransacEmail({
       subject,
-      text,
-      html,
+      to: [{ email: to }],
+      sender: {
+        email: process.env.SMTP_FROM || "wizmailer07@gmail.com",
+        name: "WizMailer",
+      },
+      textContent: text,
+      htmlContent: html,
     });
-    console.log("✅ Message sent:", info.messageId);
-    console.log("📬 Preview URL:", nodemailer.getTestMessageUrl(info));
-    return info;
+    console.log("✅ Email sent via Brevo API:", response.messageId);
+    return response;
   } catch (error: any) {
-    console.error("❌ Email sending failed:", {
+    console.error("❌ Brevo API email failed:", {
       message: error.message,
-      code: error.code,           // e.g. ECONNREFUSED, EAUTH
-      command: error.command,     // e.g. AUTH, EHLO
-      response: error.response,   // Gmail's exact error response
-      responseCode: error.responseCode, // e.g. 535 = wrong password
-      stack: error.stack,
+      status: error.status,
+      body: error.response?.body || error.body,
     });
   }
 };
