@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --config nodemon.json",
+    "build": "tsc",
+    "start": "node dist/src/app.js",
+    "clean": "rmdir /s /q dist",
     "make:api": "node scripts/generate-api-resource.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
