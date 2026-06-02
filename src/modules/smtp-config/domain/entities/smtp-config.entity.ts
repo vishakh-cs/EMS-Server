@@ -1,5 +1,6 @@
 export interface SmtpConfig {
   id?: string;
+  employeeId: string;
   service_provider: string;
   smtp_host: string;
   smtp_port: string;

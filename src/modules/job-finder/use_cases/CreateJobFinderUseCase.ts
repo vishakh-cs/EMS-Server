@@ -10,6 +10,7 @@ export class CreateJobFinderUseCase {
   async execute(dto: JobFinderCreateDTO): Promise<JobFinderResponseDTO> {
     return this.repository.create({
       name: dto.name,
+      employeeId: dto.employeeId,
     });
   }
 

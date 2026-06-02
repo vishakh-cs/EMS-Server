@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { SmtpConfigCreateDTO } from "../../domain/dto/smtp-configCreate.dto";
 import { CreateSmtpConfigUseCase } from "../../use_cases/CreateSmtpConfigUseCase";
 import { GetSmtpConfigsUseCase } from "../../use_cases/GetSmtpConfigsUseCase";
 
@@ -15,8 +14,8 @@ export default class SmtpConfigController {
   }
 
   async create(req: Request, res: Response): Promise<Response> {
-    const dto: SmtpConfigCreateDTO = req.body;
-    const item = await this.createSmtpConfigUseCase.execute(dto);
+    const dto: any = req.body;
+    const item = ""
 
     return res.status(201).json({
       message: "SmtpConfig created successfully",

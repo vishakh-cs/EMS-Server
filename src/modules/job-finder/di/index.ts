@@ -8,11 +8,10 @@ import { createSmtpConfigUseCase } from "../../smtp-config/di";
 export const jobFinderRepository = new MongoJobFinderRepository();
 export const createJobFinderUseCase = new CreateJobFinderUseCase(jobFinderRepository);
 export const getJobFindersUseCase = new GetJobFindersUseCase(jobFinderRepository);
-export const createSmtpConfig = new CreateSmtpConfigUseCase(createSmtpConfigUseCase);
 
 export const jobFinderController = new JobFinderController(
   createJobFinderUseCase,
   getJobFindersUseCase,
-  createSmtpConfig
+  createSmtpConfigUseCase
 
 );

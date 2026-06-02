@@ -11,4 +11,6 @@ is_secure_ssl: boolean;
 smtp_username: string;
 smtp_password: string;
 
+employeeId?: string;
+
 }

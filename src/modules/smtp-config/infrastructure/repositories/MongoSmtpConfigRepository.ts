@@ -3,6 +3,7 @@ import { SmtpConfigRepository } from "../../domain/interfaces/smtp-config.reposi
 import { SmtpConfigResponseDTO } from "../../domain/dto/smtp-configResponse.dto";
 import { toDomain } from "../mapper/smtp-config.mapper";
 import { SmtpConfigInputDto } from "../../domain/dto/smtp-configCreate.dto";
+import SmtpConfigModel from "../models/SmtpConfig";
 
 export class MongoSmtpConfigRepository implements SmtpConfigRepository {
   async create(item: SmtpConfig): Promise<SmtpConfigResponseDTO> {
@@ -20,9 +21,22 @@ export class MongoSmtpConfigRepository implements SmtpConfigRepository {
   }
 
   async createSmtpConfig(dto: SmtpConfigInputDto): Promise<SmtpConfigResponseDTO> {
-    // Implement database creation logic
-    // const createdItem = await Model.create(item);
-    // return toDomain(createdItem);
-    return toDomain({ ...dto, _id: "dummy-id" });
+    const employeeId=dto.employeeId;
+
+    const smtpConfig=await SmtpConfigModel.findOne({employeeId:employeeId});
+
+    if(smtpConfig){
+      throw new Error("SmtpConfig already exists");
+    }
+    const response = await SmtpConfigModel.create(dto);
+    return toDomain(response);
+  }
+
+  async getSmtpConfig(email: string): Promise<SmtpConfigResponseDTO> {
+    const response = await SmtpConfigModel.findOne({email:email});
+    if (!response) {
+      throw new Error("SmtpConfig not found");
+    }
+    return toDomain(response);
   }
 }
