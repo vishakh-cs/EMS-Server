@@ -12,6 +12,7 @@ export interface JobFindingResponseDTO {
   postedDate?: Date;
   searchKeywords: string[];
   employeeId?: string;
+  isApplied?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

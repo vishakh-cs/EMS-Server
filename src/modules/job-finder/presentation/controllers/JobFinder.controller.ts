@@ -4,6 +4,7 @@ import { CreateJobFinderUseCase } from "../../use_cases/CreateJobFinderUseCase";
 import { GetJobFindersUseCase } from "../../use_cases/GetJobFindersUseCase";
 import { GetJobFindingsUseCase } from "../../use_cases/GetJobFindingsUseCase";
 import { StartFindJobsUseCase } from "../../use_cases/StartFindJobsUseCase";
+import { ToggleJobFindingAppliedUseCase } from "../../use_cases/ToggleJobFindingAppliedUseCase";
 import { JobFindRequestDTO } from "../../domain/dto/job-findRequest.dto";
 import { SmtpConfigInputDto } from "../../../smtp-config/domain/dto/smtp-configCreate.dto";
 import { CreateSmtpConfigUseCase } from "../../../smtp-config/use_cases/CreateSmtpConfigUseCase";
@@ -18,6 +19,7 @@ export default class JobFinderController {
     private readonly createSmtpConfigUseCase: CreateSmtpConfigUseCase,
     private readonly startFindJobsUseCase: StartFindJobsUseCase,
     private readonly getJobFindingsUseCase: GetJobFindingsUseCase,
+    private readonly toggleJobFindingAppliedUseCase: ToggleJobFindingAppliedUseCase,
   ) {}
 
   async getAll(req: Request, res: Response): Promise<Response> {
@@ -192,6 +194,33 @@ export default class JobFinderController {
       console.error("[startFind] Error:", err.message);
       return res.status(500).json({
         message: "Failed to search for jobs.",
+        error: err.message,
+      });
+    }
+  }
+
+  async toggleApplied(req: Request, res: Response): Promise<Response> {
+    const id = req.params.id as string;
+    const { isApplied } = req.body;
+
+    if (isApplied === undefined) {
+      return res.status(400).json({ message: "isApplied is required." });
+    }
+
+    try {
+      const result = await this.toggleJobFindingAppliedUseCase.execute(id, isApplied);
+      if (!result) {
+        return res.status(404).json({ message: "Job finding not found." });
+      }
+
+      return res.status(200).json({
+        message: "Job finding applied status updated successfully.",
+        data: result,
+      });
+    } catch (err: any) {
+      console.error("[toggleApplied] Error:", err.message);
+      return res.status(500).json({
+        message: "Failed to update applied status.",
         error: err.message,
       });
     }

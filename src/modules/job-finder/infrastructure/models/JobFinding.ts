@@ -15,6 +15,7 @@ const JobFindingSchema = new Schema<JobFinding>(
     postedDate: { type: Date },
     searchKeywords: { type: [String], default: [] },
     employeeId: { type: String },
+    isApplied: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

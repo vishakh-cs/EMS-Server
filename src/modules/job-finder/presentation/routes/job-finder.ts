@@ -10,6 +10,7 @@ router.post("/create-smtp-config", authMiddleware, jobFinderController.createSmt
 router.post("/send-email", authMiddleware, jobFinderController.sendEmail.bind(jobFinderController));
 router.get("/mail-history", authMiddleware, jobFinderController.getMailHistory.bind(jobFinderController));
 router.get("/job-findings", authMiddleware, jobFinderController.getJobFindings.bind(jobFinderController));
+router.patch("/job-findings/:id/applied", authMiddleware, jobFinderController.toggleApplied.bind(jobFinderController));
 router.post("/start-find", authMiddleware, jobFinderController.startFind.bind(jobFinderController));
 
 export default router;

@@ -1,12 +1,17 @@
 import JobFindingModel from "../infrastructure/models/JobFinding";
 import { JobFindingResponseDTO } from "../domain/dto/job-findingResponse.dto";
 
-export class GetJobFindingsUseCase {
-  async execute(employeeId?: string): Promise<JobFindingResponseDTO[]> {
-    const filter = employeeId ? { employeeId } : {};
-    const docs = await JobFindingModel.find(filter).sort({ createdAt: -1 }).lean();
+export class ToggleJobFindingAppliedUseCase {
+  async execute(id: string, isApplied: boolean): Promise<JobFindingResponseDTO | null> {
+    const doc = await JobFindingModel.findByIdAndUpdate(
+      id,
+      { isApplied },
+      { new: true }
+    ).lean() as any;
 
-    return docs.map((doc: any) => ({
+    if (!doc) return null;
+
+    return {
       id: doc._id.toString(),
       jobTitle: doc.jobTitle,
       companyName: doc.companyName,
@@ -23,6 +28,6 @@ export class GetJobFindingsUseCase {
       isApplied: doc.isApplied,
       createdAt: doc.createdAt,
       updatedAt: doc.updatedAt,
-    }));
+    };
   }
 }

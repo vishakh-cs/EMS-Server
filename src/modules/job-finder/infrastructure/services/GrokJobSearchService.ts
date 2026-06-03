@@ -40,13 +40,14 @@ export async function searchJobsWithGrok(
   const webSearchPrompt = `Search for ${titleQuery} developer jobs ${locationClause} posted after ${dateStr}. 
 Find at least 8 individual job listings with company names, titles, and locations from Naukri, LinkedIn, Glassdoor, or Indeed.
 Extract specific companies from the search results. Each company hiring ${titleQuery} developers counts as one listing.
+IMPORTANT: You MUST only return job listings for which a valid contact email or HR email is available. If no email is available in the search results or listing, exclude that job listing entirely. Do not return null or empty email.
 
 Return ONLY this JSON array (no text before or after, no markdown):
 [
   {
     "jobTitle": "exact job title",
     "companyName": "company name",
-    "email": "hr or contact email address if found in listing, or null",
+    "email": "hr or contact email address (mandatory, e.g. hr@company.com)",
     "location": "city, state",
     "jobType": "full-time",
     "experienceRequired": "${experience} years",
@@ -61,6 +62,7 @@ Return ONLY this JSON array (no text before or after, no markdown):
   const knowledgePrompt = `Generate a realistic list of 10 ${titleQuery} developer job postings ${locationClause} as of ${new Date().toISOString().split("T")[0]}.
 Use realistic company names (Indian tech companies, startups, MNCs operating in India).
 Experience required: ${experience} years. These should look like real job listings.
+IMPORTANT: Every generated job listing MUST have a realistic email property.
 
 Return ONLY this JSON array (no markdown, no text before/after):
 [{"jobTitle":"...","companyName":"...","email":"hr@company.com","location":"...","jobType":"full-time","experienceRequired":"${experience} years","description":"...","applyUrl":null,"source":"LinkedIn","postedDate":"2026-05-15"}]`;

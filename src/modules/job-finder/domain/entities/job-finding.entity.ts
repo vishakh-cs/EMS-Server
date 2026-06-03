@@ -12,6 +12,7 @@ export interface JobFinding {
   postedDate?: Date;
   searchKeywords: string[];  // the jobtitles used to search
   employeeId?: string;
+  isApplied?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
