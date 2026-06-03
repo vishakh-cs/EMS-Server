@@ -2,6 +2,7 @@ export interface JobFindingResponseDTO {
   id: string;
   jobTitle: string;
   companyName?: string;
+  email?: string;
   location?: string;
   jobType?: string;
   experienceRequired?: string;

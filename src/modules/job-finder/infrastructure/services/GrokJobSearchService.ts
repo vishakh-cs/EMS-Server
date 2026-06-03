@@ -3,6 +3,7 @@ import https from "https";
 export interface ParsedJob {
   jobTitle: string;
   companyName?: string;
+  email?: string;
   location?: string;
   jobType?: string;
   experienceRequired?: string;
@@ -45,6 +46,7 @@ Return ONLY this JSON array (no text before or after, no markdown):
   {
     "jobTitle": "exact job title",
     "companyName": "company name",
+    "email": "hr or contact email address if found in listing, or null",
     "location": "city, state",
     "jobType": "full-time",
     "experienceRequired": "${experience} years",
@@ -61,7 +63,7 @@ Use realistic company names (Indian tech companies, startups, MNCs operating in 
 Experience required: ${experience} years. These should look like real job listings.
 
 Return ONLY this JSON array (no markdown, no text before/after):
-[{"jobTitle":"...","companyName":"...","location":"...","jobType":"full-time","experienceRequired":"${experience} years","description":"...","applyUrl":null,"source":"LinkedIn","postedDate":"2026-05-15"}]`;
+[{"jobTitle":"...","companyName":"...","email":"hr@company.com","location":"...","jobType":"full-time","experienceRequired":"${experience} years","description":"...","applyUrl":null,"source":"LinkedIn","postedDate":"2026-05-15"}]`;
 
   const configs = [
     {
@@ -193,6 +195,7 @@ async function callGroqApi(
     .map((j: any): ParsedJob => ({
       jobTitle: j.jobTitle || j.title || "Developer",
       companyName: j.companyName || j.company || undefined,
+      email: j.email || undefined,
       location: j.location || undefined,
       jobType: j.jobType || j.type || "full-time",
       experienceRequired: j.experienceRequired || j.experience || undefined,

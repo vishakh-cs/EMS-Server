@@ -2,6 +2,7 @@ export interface JobFinding {
   id?: string;
   jobTitle: string;
   companyName?: string;
+  email?: string;
   location?: string;
   jobType?: string;          // full-time, remote, contract, etc.
   experienceRequired?: string;

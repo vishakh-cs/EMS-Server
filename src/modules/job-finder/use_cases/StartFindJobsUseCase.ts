@@ -31,6 +31,7 @@ export class StartFindJobsUseCase {
       id: doc._id.toString(),
       jobTitle: doc.jobTitle,
       companyName: doc.companyName,
+      email: doc.email,
       location: doc.location,
       jobType: doc.jobType,
       experienceRequired: doc.experienceRequired,

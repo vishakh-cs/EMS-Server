@@ -5,6 +5,7 @@ const JobFindingSchema = new Schema<JobFinding>(
   {
     jobTitle: { type: String, required: true },
     companyName: { type: String },
+    email: { type: String },
     location: { type: String },
     jobType: { type: String },
     experienceRequired: { type: String },
