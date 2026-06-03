@@ -13,15 +13,12 @@ export class StartFindJobsUseCase {
     // 1. Ask Grok to find jobs from the internet
     const jobs = await searchJobsWithGrok(jobtitle, experience, location);
 
-    // Filter to require email
-    const jobsWithEmail = jobs.filter((j) => j.email && j.email.trim() !== "");
-
-    if (!jobsWithEmail.length) {
+    if (!jobs.length) {
       return { saved: [], totalFound: 0 };
     }
 
     // 2. Bulk insert into the jobfindings collection
-    const docs = jobsWithEmail.map((j) => ({
+    const docs = jobs.map((j) => ({
       ...j,
       searchKeywords: jobtitle,
       employeeId: employeeId || undefined,
