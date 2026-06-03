@@ -1,37 +1,38 @@
-import { BrevoClient } from "@getbrevo/brevo";
+import nodemailer from "nodemailer";
+import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } from "../config";
 
-export const sendMail = async (
-  to: string,
-  subject: string,
-  text: string,
-  html?: string
-) => {
-  const apiKey = process.env.BREVO_API_KEY;
-  if (!apiKey) {
-    console.warn("⚠️ BREVO_API_KEY is missing. Skipping email.");
+const transporter = nodemailer.createTransport({
+  host: SMTP_HOST || "smtp.ethereal.email",
+  port: SMTP_PORT || 587,
+  secure: false,
+  auth: SMTP_USER ? {
+    user: SMTP_USER,
+    pass: SMTP_PASS,
+  } : undefined,
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+export const sendMail = async (to: string, subject: string, text: string, html?: string) => {
+  if (!SMTP_HOST && !SMTP_USER) {
+    console.warn("SMTP configuration is missing. Skipping email sending.");
     return null;
   }
 
-  const client = new BrevoClient({ apiKey });
-
   try {
-    const response = await client.transactionalEmails.sendTransacEmail({
+    const info = await transporter.sendMail({
+      from: SMTP_FROM,
+      to,
       subject,
-      to: [{ email: to }],
-      sender: {
-        email: process.env.SMTP_FROM || "wizmailer07@gmail.com",
-        name: "WizMailer",
-      },
-      textContent: text,
-      htmlContent: html,
+      text,
+      html,
     });
-    console.log("✅ Email sent via Brevo API:", response.messageId);
-    return response;
-  } catch (error: any) {
-    console.error("❌ Brevo API email failed:", {
-      message: error.message,
-      status: error.status,
-      body: error.response?.body || error.body,
-    });
+    console.log("Message sent: %s", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("Error sending email:", error);
+    // Don't throw to avoid breaking the organization creation flow, or we could throw if email is critical.
+    // For now, logging the error should be sufficient.
   }
 };
