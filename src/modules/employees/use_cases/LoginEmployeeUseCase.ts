@@ -30,6 +30,11 @@ export class LoginEmployeeUseCase {
             id: employee.id!,
             email: employee.email,
             role: employee.role,
+<<<<<<< HEAD
+=======
+            employeeUID: employee.employeeUID,
+            organizationId: employee.organizationId,
+>>>>>>> jobfinder
         }
 
         const token = generateAccessToken(tokenPayload);

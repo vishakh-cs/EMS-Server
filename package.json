@@ -5,6 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --config nodemon.json",
+<<<<<<< HEAD
+=======
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "clean": "rmdir /s /q dist",
+>>>>>>> jobfinder
     "make:api": "node scripts/generate-api-resource.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,12 +19,20 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@getbrevo/brevo": "^5.0.4",
+>>>>>>> jobfinder
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
+<<<<<<< HEAD
+=======
+    "ip-range-check": "^0.2.0",
+>>>>>>> jobfinder
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.1",
     "nodemailer": "^8.0.7",

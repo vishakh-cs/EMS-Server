@@ -35,4 +35,15 @@ export class MongoOrganizationRepository implements OrganizationRepository {
     return organizations.map(toDomain);
   }
 
+<<<<<<< HEAD
+=======
+  async findByEmail(email: string): Promise<Organization> {
+    const organization = await OrganizationModel.findOne({ email });
+    if (!organization) {
+      throw new Error("Organization not found");
+    }
+    return toDomain(organization);
+  }
+
+>>>>>>> jobfinder
 }

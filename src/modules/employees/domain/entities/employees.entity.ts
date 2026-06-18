@@ -2,7 +2,11 @@ import { EmployeeRole, EmployeeStatus, EmploymentType } from "../../../../shared
 
 
 export interface Employees {
+<<<<<<< HEAD
   id?: string;
+=======
+  id: string;
+>>>>>>> jobfinder
 
   employeeUID: string;
   firstName: string;

@@ -5,6 +5,11 @@ declare namespace Express {
       email: string;
       role: string;
       organizationUID?: string;
+<<<<<<< HEAD
+=======
+      organizationId?: string;
+      employeeUID?: string;
+>>>>>>> jobfinder
     };
   }
 }

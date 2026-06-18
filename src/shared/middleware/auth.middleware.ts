@@ -10,6 +10,11 @@ export interface AuthUser {
   id: string;
   email: string;
   role: string;
+<<<<<<< HEAD
+=======
+  employeeUID?: string;
+  organizationId?: string;
+>>>>>>> jobfinder
 }
 
 export interface AuthRequest extends Request {

@@ -28,4 +28,15 @@ export class MongoEmployeesRepository implements EmployeesRepository {
     };
   }
 
+<<<<<<< HEAD
+=======
+  async findByUID(uid: string): Promise<Employees | null> {
+    const employee = await EmployeeModel.findOne({ employeeUID: uid }).lean();
+    if (!employee) return null;
+    return {
+      ...(employee as any),
+      id: employee._id.toString(),
+    };
+  }
+>>>>>>> jobfinder
 }

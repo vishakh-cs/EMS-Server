@@ -32,9 +32,16 @@ export default class OrganizationController {
     });
   }
 
+<<<<<<< HEAD
   async createOrganization(req: Request, res: Response): Promise<Response> {
     const organization: OrganizationCreateDTO = req.body;
 
+=======
+  
+  async createOrganization(req: Request, res: Response): Promise<Response> {
+    const organization: OrganizationCreateDTO = req.body;
+    
+>>>>>>> jobfinder
     try {
       const createdOrganization = await this.createOrganizationUseCase.execute(
         organization
@@ -62,23 +69,39 @@ export default class OrganizationController {
       });
     }
   }
+<<<<<<< HEAD
 
   async getIPWhitelist(req: Request, res: Response): Promise<Response> {
     const user = req.user;
     const isAuthenticated = user?.role === "admin";
 
+=======
+  
+  async getIPWhitelist(req: Request, res: Response): Promise<Response> {
+    const user = req.user;
+    const isAuthenticated = user?.role === "admin";
+    
+>>>>>>> jobfinder
     if (!isAuthenticated) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> jobfinder
     if (!user?.organizationUID) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> jobfinder
     const ipWhitelist = await this.getWhitelistIPSUseCase.execute(user.organizationUID);
     return res.json({
       message: "IP whitelist fetched successfully",
@@ -89,15 +112,25 @@ export default class OrganizationController {
   async updateIPWhitelist(req: Request, res: Response): Promise<Response> {
     const user = req.user;
     const isAuthenticated = user?.role === "admin";
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> jobfinder
     if (!isAuthenticated) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
+<<<<<<< HEAD
 
     const IPListWithOrgID: WhitelistIpsCreateDTO = req.body;
 
+=======
+    
+    const IPListWithOrgID: WhitelistIpsCreateDTO = req.body;
+    
+>>>>>>> jobfinder
     try {
       const ipWhitelist = await this.createWhitelistIpsUseCase.execute(IPListWithOrgID);
       return res.status(201).json({
@@ -112,7 +145,11 @@ export default class OrganizationController {
       });
     }
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> jobfinder
   private isDuplicateKeyError(error: unknown): boolean {
     return (
       typeof error === "object" &&

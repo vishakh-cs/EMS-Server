@@ -40,4 +40,19 @@ export default class EmployeesController {
       data: user,
     });
   }
+<<<<<<< HEAD
+=======
+
+  async getProfile(req: Request, res: Response): Promise<Response> {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const employee = await this.getEmployeessUseCase.getProfile(user.email);
+    return res.json({ message: "Get employee profile", data: employee });
+  }
+>>>>>>> jobfinder
 }

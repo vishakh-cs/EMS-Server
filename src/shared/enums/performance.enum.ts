@@ -1,0 +1,20 @@
+export enum ReviewStatus {
+  DRAFT = "DRAFT",
+  SUBMITTED = "SUBMITTED",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export enum ReviewType {
+  MONTHLY = "MONTHLY",
+  QUARTERLY = "QUARTERLY",
+  YEARLY = "YEARLY",
+  PROBATION = "PROBATION",
+  ADHOC = "ADHOC",
+}
+
+export enum KPIStatus {
+  ACTIVE = "ACTIVE",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}

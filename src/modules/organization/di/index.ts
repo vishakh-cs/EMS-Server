@@ -8,7 +8,12 @@ import { createEmployeesUseCase } from "../../employees/di";
 export const organizationRepository = new MongoOrganizationRepository();
 export const createOrganizationUseCase = new CreateOrganizationUseCase(
   organizationRepository,
+<<<<<<< HEAD
   createEmployeesUseCase
+=======
+  createEmployeesUseCase,
+  createWhitelistIpsUseCase,
+>>>>>>> jobfinder
 );
 export const getOrganizationsUseCase = new GetOrganizationsUseCase(organizationRepository);
 

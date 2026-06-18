@@ -5,12 +5,23 @@ import { EmployeeRole, EmployeeStatus } from "../../../shared/enums/employee.enu
 import crypto from "crypto";
 import { OrganizationCreateDTO, validateFields } from "../domain/dto/organizationCreate.dto";
 import { sendMail } from "../../../utils/mailer";
+<<<<<<< HEAD
+=======
+import { CreateWhitelistIpsUseCase } from "../../whitelist-ips/use_cases/CreateWhitelistIpsUseCase";
+import { DEFAULT_IP_ADDRESS } from "../../../config";
+>>>>>>> jobfinder
 
 export class CreateOrganizationUseCase {
   constructor(
     private readonly organizationRepository: OrganizationRepository,
+<<<<<<< HEAD
     private readonly createEmployeesUseCase: CreateEmployeesUseCase
   ) {}
+=======
+    private readonly createEmployeesUseCase: CreateEmployeesUseCase,
+    private readonly createWhitelistIpsUseCase: CreateWhitelistIpsUseCase,
+  ) { }
+>>>>>>> jobfinder
 
   async execute(organization: OrganizationCreateDTO): Promise<Organization> {
     const missingFields = validateFields(organization);
@@ -60,6 +71,14 @@ export class CreateOrganizationUseCase {
       country: "N/A",
     });
 
+<<<<<<< HEAD
+=======
+    await this.createWhitelistIpsUseCase.execute({
+      organizationUID: organization.orgUID,
+      whitelist_ips: [DEFAULT_IP_ADDRESS],
+    });
+
+>>>>>>> jobfinder
     const subject = `Welcome to ${organization.organizationName}!`;
     const text = `Hello Admin,\n\nYour organization has been successfully created.\n\nHere are your admin credentials:\nEmail: ${adminEmail}\nPassword: ${adminPassword}\n\nPlease login and change your password immediately.`;
     const html = `
